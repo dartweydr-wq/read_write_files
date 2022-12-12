@@ -30,18 +30,16 @@ func file(filePath string) {
 	}
 	defer createFile.Close()
 
-	text := ""
 	s := bufio.NewScanner(f1)
 	s.Split(bufio.ScanLines)
 	for s.Scan() {
-		text = s.Text()
+		writeFile, err := createFile.WriteString(s.Text())
+		if err != nil {
+			fmt.Printf("Unable to write file [%s]", err.Error())
+		}
+		fmt.Println("Сколько байт записано: ", writeFile)
 	}
 
-	writeFile, err := createFile.WriteString(text)
-	if err != nil {
-		fmt.Printf("Unable to write file [%s]", err.Error())
-	}
-	fmt.Println("Сколько байт записано: ", writeFile)
 }
 
 func main() {
